@@ -70,7 +70,7 @@ def main(config):
 
     print("PPAppStation Quit!")    
 
-def domain():
+def run():
     parser = optparse.OptionParser()
     parser.add_option('--config', default="ppnetwork.yaml", dest='config_file', help='set config file,default is ppnetwork.yaml')
     opt, args = parser.parse_args()
@@ -86,17 +86,5 @@ def domain():
         main(config=config)
 
 if __name__ == "__main__":
-    parser = optparse.OptionParser()
-    parser.add_option('--config', default="ppnetwork.yaml", dest='config_file', help='set config file,default is ppnetwork.yaml')
-    opt, args = parser.parse_args()
-    if not (opt.config_file):
-        parser.print_help()
-    else:
-        config = yaml.load(open(opt.config_file))
-        config["config_file"] = opt.config_file
-        set_debug(config.get("DebugLevel", logging.WARNING),
-                    config.get("DebugFile", ""),
-#                     debug_filter=lambda record: record.filename =="pp_flow.py" or record.filename =="pp_vpn.py" or record.levelno>logging.DEBUG,
-                )
-        main(config=config)
+    run()
     
