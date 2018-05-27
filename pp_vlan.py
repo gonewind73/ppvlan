@@ -69,11 +69,22 @@ def main(config):
             s=input()
 
     print("PPAppStation Quit!")    
+    
+def create_config(config_file):
+    config = {
+              "services": {"vpn": "enable", },         
+              "vpn": { "VlanId" : 0,"VlanSecret" : "12345678", },
+              }
+    yaml.dump(config,open(config_file,"w"))    
+        
 
 def run():
     parser = optparse.OptionParser()
     parser.add_option('--config', default="ppnetwork.yaml", dest='config_file', help='set config file,default is ppnetwork.yaml')
+    parser.add_option('--create', default="no", dest='create', help='create config file  ppnetwork.yaml')
     opt, args = parser.parse_args()
+    if not opt.create == "no" : 
+        create_config(opt.config_file)
     if not (opt.config_file):
         parser.print_help()
     else:

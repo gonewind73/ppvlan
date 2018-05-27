@@ -211,8 +211,17 @@ class PPVPN(PPNetApp):
         super().quit()
 
     def check(self):
+        for ip in list(self.vlan_table.keys()):
+            if self.vlan_table[ip].node_id==self.station.node_id:
+                continue
+            if not self.station.get_status(self.vlan_table[ip].node_id):
+                self.vlan_table.pop(ip)
+        if len(self.vlan_table)<=1:
+            self.is_running = False
+
         if not self.is_running:
             self.ip_req(BroadCastId)
+            
 #             start_new_thread(do_wait,(lambda :self.ip_req(BroadCastId),lambda: not self.ip=="0.0.0.0",3))
         self.timer = threading.Timer(60, self.check)
         self.timer.start()
@@ -321,7 +330,8 @@ class PPVPN(PPNetApp):
     
     def _lan_cast(self,vpn_msg):
         for ip in self.vlan_table:
-            self.send_msg(self.vlan_table[ip].node_id, vpn_msg)
+            if not self.vlan_table[ip].node_id==self.station.node_id:
+                self.send_msg(self.vlan_table[ip].node_id, vpn_msg)
     
     def _lan_forward(self,ppmsg):
         ppmsg.set("ttl",ppmsg.get("ttl")-1)
@@ -347,7 +357,8 @@ class PPVPN(PPNetApp):
     
     def arp_cast(self):
         for ip in self.vlan_table:
-            self.arp_res(self.vlan_table[ip].node_id)
+            if not self.vlan_table[ip].node_id==self.station.node_id:
+                self.arp_res(self.vlan_table[ip].node_id)
             
     def _confirm(self,vpn_msg):
         ip = ip_itos(vpn_msg.get_parameter("ip"))
