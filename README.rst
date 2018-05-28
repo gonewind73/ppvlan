@@ -64,9 +64,10 @@ VlanSecret : "12345678",
 ::
 运行
 =====
-ppnetwork -h | --help   帮助
-ppnetwork  --config  pp.yaml   用指定的配置文件（pp.yaml） 运行。
-ppnetwork     用缺省配置文件ppnetwork.yaml 运行
+ppvlan -h | --help   帮助
+ppvlan  --config  pp.yaml   用指定的配置文件（pp.yaml） 运行。
+ppvlan     用缺省配置文件ppnetwork.yaml 运行
+ppvlan --create yes 产生最简配置，运行
  
 
 安全说明
