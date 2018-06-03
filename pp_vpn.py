@@ -50,7 +50,15 @@ switch
 
     和tuntap交换数据
 
-
+透明代理
+    建立虚拟网卡，添加目标路由  route
+    主机发送到目标的数据包到虚拟网卡
+    解包，获得 目标地址、协议、源地址、payload 
+    根据虚拟网卡中的 route table，指示对应node_id 建立到目标地址的flow，出接口为  socket udp或tcp 
+    在连接上发送payload  
+    接收数据 ， 
+    组包：目标地址 源地址，协议，数据 
+    通过虚拟网卡发送给主机  
 '''
 EXPIRE_TIME = 24*60*60*1000
 TIME_WINDOW = 100
